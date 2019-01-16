@@ -1,0 +1,49 @@
+server:
+  port: 8080
+spring:
+  devtools:
+    restart:
+      enabled: true
+    add-properties: false
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lost_found?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
+    platform: mysql
+    #以下为druid增加的配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 下面为连接池的补充设置，应用到上面的所有数据
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    #配置连接等待超时的时间
+    maxWait: 60000
+    #配置间隔多久才进行检测一次，检测时需要关闭空闲连接，单位为毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    #配置一个连接在池中最小的生存时间，单位为毫秒
+    minEvictableIdleTimeMillis: 300000
+    #建议为true 防止取到的连接不可用
+    testOnBorrow: true
+    testOnReturn: true
+    #验证连接有效与否的SQL，不同的数据配置不同
+    validationQuery: select 1
+    filters: stat
+  mybatis-plus:
+      #实体扫描
+    typeAliasesPackage: com.lumia.lostfound.entity
+    configuration:
+      map-underscore-to-camel-case: true
+      cache-enabled: false
+  #设置时间转换格式以及时区
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: 10MB  #单个文件限制为10Mb
+      max-request-size: 50MB  #总文件大小不能超过50Mb
+logging:
+  level:
+    web: debug
+    com.lumia.lostfound.dao: debug
